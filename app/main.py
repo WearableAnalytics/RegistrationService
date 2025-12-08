@@ -3,6 +3,7 @@ from datetime import datetime
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from fastapi.responses import HTMLResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.charite_client import mock_lookup_user_in_charite
 from app.crud import create_registration
@@ -15,6 +16,12 @@ from app.token import RegistrationTokenService
 app = FastAPI(title="Test", version="0.1.0", description="Test")
 Base.metadata.create_all(bind=engine)
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 def get_db():
     db = SessionLocal()
